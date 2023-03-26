@@ -139,3 +139,5 @@ cython_debug/
 
 #sqlite cache
 cache.sqlite
+
+*.pem
