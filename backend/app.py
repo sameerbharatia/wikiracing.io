@@ -14,8 +14,6 @@ app.config.from_object('config.ProdConfig')
 
 socketio = SocketIO(app, cors_allowed_origins="*")
 
-rooms = {}
-
 requests_cache.install_cache()
 
 @app.route('/')
@@ -25,12 +23,8 @@ def hello():
 @app.route('/validation_data')
 @cross_origin()
 def validation():
-    json_data = {}
-
-    for code, room in rooms.items():
-        json_data[code] = room.export()
-
-    return json_data
+    #TODO: FIX THIS, THIS SUCKS
+    return Room.get_all_rooms()
 
 
 @socketio.on('join')
@@ -41,38 +35,34 @@ def on_join(data):
     #ensure that redirects dont add empty users
     if username:
 
-        if room_code not in rooms:
-            rooms[room_code] = Room(room_code)
+        room = Room(room_code)
         
-        rooms[room_code].add_user(username, request.sid)
+        room.add_user(username, request.sid)
         join_room(room_code)
 
-        room_data = rooms[room_code].export()
+        room_data = room.export()
 
         emit('updateRoom', room_data, broadcast=True, room=room_code)
 
         # Join message
-        msg_item = {'username': 'Bot', 'emoji': '&#129302;', 'message': username+' joined the room.'}
+        msg_item = {'username': 'Bot', 'emoji': '&#129302;', 'message': f'{username} joined the room.'}
         emit('chatMSG', msg_item, broadcast=True, room=room_code)
 
 
 @socketio.on('disconnect')
 def on_leave():
 
-    for code, room in rooms.items():
-        if removed := room.delete_user(request.sid):
-            room_code = code
-            leave_room(room_code)
-            if not room.users:
-                del rooms[code]
-            break
+    room = Room.room_from_user(request.sid)
+    deleted_user = room.delete_user(request.sid)
+    room_code = room.room_code
+    leave_room(room_code)
     
-    if room_code in rooms:
-        room_data = rooms[room_code].export()
+    if Room.exists(room_code):
+        room_data = room.export()
         emit('updateRoom', room_data, broadcast = True, room = room_code)
 
         # Leave message
-        msg_item = {'username': 'Bot', 'emoji': '&#129302;', 'message': removed.username+' left the room.'}
+        msg_item = {'username': 'Bot', 'emoji': '&#129302;', 'message': f'{deleted_user["username"]} left the room.'}
         emit('chatMSG', msg_item, broadcast=True, room=room_code)
 
 
@@ -81,17 +71,16 @@ def on_leave():
 def start_game(data):
     room_code = data['roomCode']
 
-    room = rooms[room_code]
+    room = Room(room_code)
 
     room.start_game()
 
-    room_data = room.export()
     emit('startRound', {'startPage': room.start_page}, broadcast=True, room=room_code)
 
 @socketio.on('updateRoom')
 def update_room(data):
     room_code = data['roomCode']
-    room = rooms[room_code]
+    room = Room(room_code)
 
     room_data = room.export()
 
@@ -101,7 +90,7 @@ def update_room(data):
 @socketio.on('randomizePages')
 def randomize(data):
     room_code = data['roomCode']
-    room = rooms[room_code]
+    room = Room(room_code)
 
     room.randomize_pages()
 
@@ -113,27 +102,33 @@ def randomize(data):
 def get_wikipage(data):
     room_code = data['roomCode']
     page_name = data['wikiPage']
-    room = rooms[room_code]
+    room = Room(room_code)
 
-    page = Page(page_name, rooms[room_code].target_page).export()
+    page = Page(page_name, room.target_page).export()
     emit('updatePage', page)
     winner = room.update_game(request.sid, page_name)
 
-    if winner:
+    if winner is not None:
         emit('endRound', winner.export(), broadcast=True, room=room_code)
 
 @socketio.on('updateTime')
 def update_time(data):
     time = data['time']
     room_code = data['roomCode']
-    rooms[room_code].users[request.sid].time = time
+
+    room = Room(room_code)
+
+    room.set_time(request.sid, time)
 
 @socketio.on('chatMSG')
 def message(data):
     message = profanity.censor(data['message'], '&#129324')
     user_name = data['userName']
     room_code = data['roomCode']
-    emoji = rooms[room_code].users[request.sid].emoji
+
+    room = Room(room_code)
+
+    emoji = room.get_emoji(request.sid)
 
     msg_item = {'username': user_name, 'emoji': emoji, 'message': message}
 

@@ -1,74 +1,159 @@
 from random import choice, sample
 from User import User
 from data import pages, emojis
-import time
+from pymongo import MongoClient
 
 ROOM_LIMIT = 8
 
+uri = "mongodb+srv://devwikiracing.lifgoh4.mongodb.net/?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority"
+client = MongoClient(uri,
+                     tls=True,
+                     tlsCertificateKeyFile='X509-cert-7030048765736591719.pem')
+
+db = client['WikiRacing']
+rooms = db['Rooms']
+
 class Room:
     def __init__(self, room_code):
-        self.users = {}
         self.room_code = room_code
-        self.emojis = sample(emojis, ROOM_LIMIT)
-        self.start_page, self.target_page = choice(pages)
-        self.rounds = 1
+        room = rooms.find_one({'_id': room_code})
+
+        if room is None:
+            start_page, target_page = choice(pages)
+            room = {'_id': room_code, 
+                    'users': {}, 
+                    'start_page': start_page,
+                    'target_page': target_page,
+                    'round': 1,
+                    'emojis': sample(emojis, ROOM_LIMIT)}
+
+            rooms.insert_one(room)
+
+    @staticmethod
+    def get_all_rooms():
+        room_list = list(rooms.find({}))
+        return {room['_id']: room for room in room_list}
+
+    @staticmethod
+    def room_from_user(user_id):
+        room_code = rooms.find_one({f'users.{user_id}.user_id': user_id})['_id']
+        return Room(room_code)
     
-    #USER METHODS
-    def get_user(self, sid):
-        return self.users[sid]
+    @staticmethod
+    def exists(room_code):
+        return rooms.count_documents({'_id': room_code}) > 0
 
-    def add_user(self, username, sid):
-        if sid not in self.users: 
-            #Creates user and adds to room
-            self.users[sid] = User(username, sid, self.emojis.pop())
-            
-            #Makes user admin if first in room
-            if len(self.users) == 1: 
-                self.users[sid].admin = True
+    @property
+    def room(self):
+        return rooms.find_one({'_id': self.room_code})
 
-    def delete_user(self, sid):
-        #Deletes user from room
-        removed = self.users.pop(sid, None)
+    @property
+    def start_page(self):
+        return self.room['start_page']
 
-        #If people still in room, makes second person admin
-        if removed and removed.admin and self.users:
-            self.users[next(iter(self.users))].admin = True
-            
-        return removed
+    @property
+    def target_page(self):
+        return self.room['target_page']
+
+    def set_time(self, user_id, time):
+        rooms.update_one({'_id': self.room_code}, {'$set': {f'users.{user_id}.time': time}})
+    
+    def get_emoji(self, user_id):
+        return self.room['users'][user_id]['emoji']
+
+    def get_user(self, user_id):
+        return self.room['users'].get(user_id, None)
+    
+    def add_user(self, username, user_id):
+        if self.get_user(user_id) is not None:
+            return # raise error here?
+        
+        admin_status = len(self.room['users']) == 0
+
+        user = {'user_id': user_id,
+                'username': username,
+                'admin': admin_status,
+                'current_page': None,
+                'clicks': 0,
+                'wins': 0,
+                'time': 0,
+                'emoji': self.room['emojis'].pop()}
+        
+        rooms.update_one({'_id': self.room_code}, {'$set': {f'users.{user_id}': user},
+                                                   '$pop': {'emojis': 1}})
+
+    def delete_user(self, user_id):
+        deleted_user = self.get_user(user_id)
+
+        if deleted_user is None:
+            return # raise error here?
+
+        rooms.update_one({'_id': self.room_code}, {'$unset': {f'users.{user_id}': {'user_id': user_id}}})
+
+        if self.empty:
+            rooms.delete_one({'_id': self.room_code})
+
+        elif deleted_user['admin']:
+            new_admin = next(iter(self.room['users']))
+            rooms.update_one({'_id': self.room_code}, {'$set': {f'users.{new_admin}.admin': True}})
+
+        return deleted_user
 
     #ROOM METHODS
-    def randomize_pages(self):
-        self.start_page, self.target_page = choice(pages)
+    def _randomize_pages(self):
+        start_page, target_page = choice(pages)
+        rooms.update_one({'_id': self.room_code}, {'$set': {'start_page': start_page,
+                                                            'target_page': target_page}})
 
-    def is_room_full(self):
-        return True if len(self.users) >= ROOM_LIMIT else False 
+    @property
+    def empty(self):
+        return len(self.room['users']) == 0
+
+    @property
+    def full(self):
+        return len(self.room['users']) >= ROOM_LIMIT
 
     def start_game(self):
         #Resets relevant user statistics for next round
-        for user in self.users.values():
-            user.clicks = -1
-            user.current_page = self.start_page
+        start_page = self.room['start_page']
+        for user_id in self.room['users']:
+            rooms.update_one({'_id': self.room_code}, {'$set': {f'users.{user_id}.clicks': 0,
+                                                                f'users.{user_id}.current_page': start_page}})
 
-    def update_game(self, sid, page):
-        user = self.get_user(sid)
-        user.current_page = page
-        user.clicks += 1
+    def update_game(self, user_id, page):
+        #user = self.get_user(user_id)
+        rooms.update_one({'_id': self.room_code}, {'$inc': {f'users.{user_id}.clicks': 1}, 
+                                                   '$set': {f'users.{user_id}.current_page': page}})
+
+        user_page = page.lower()
+        target_page = self.room['target_page'].lower()
 
         # Return winner data using end_game method
-        if user.current_page.lower() == self.target_page.lower():
-            return self.end_game(sid)
+        if user_page == target_page:
+            return self.end_game(user_id)
+        
+        return None
 
-    def end_game(self, sid):
-        completer = self.get_user(sid)
-        completer.wins += 1
-        self.rounds += 1
-        self.randomize_pages()
+    def end_game(self, winner_id):
+        winner = self.get_user(winner_id)
 
-        return completer
+        rooms.update_one({'_id': self.room_code}, {'$inc': {f'round': 1, 
+                                                            f'users.{winner_id}.wins': 1}})        
+
+        self._randomize_pages()
+
+        return winner
 
     def export(self):
-        return {'start_page': self.start_page,
-                'target_page': self.target_page,
-                'room_code': self.room_code,
-                'rounds': self.rounds,
-                'users': {sid: user.export() for sid, user in self.users.items()}}
+        return self.room
+    
+
+if __name__ == '__main__':
+    #room = Room(3456)
+    #room.add_user('sameer', '123456789')
+    #room.add_user('vimal', '345345345')
+    #room.delete_user('123456789')
+    #room.start_game()
+    #room.update_game('345345345', 'Durham,_England')
+    #room.update_game('123456789', 'Thermonuclear_weapon')
+    #room.update_game('345345345', 'American_Museum_of_Natural_History')
