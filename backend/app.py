@@ -26,7 +26,6 @@ def validation():
     #TODO: FIX THIS, THIS SUCKS
     return Room.get_all_rooms()
 
-
 @socketio.on('join')
 def on_join(data):
     username = data['userName']
@@ -48,7 +47,6 @@ def on_join(data):
         msg_item = {'username': 'Bot', 'emoji': '&#129302;', 'message': f'{username} joined the room.'}
         emit('chatMSG', msg_item, broadcast=True, room=room_code)
 
-
 @socketio.on('disconnect')
 def on_leave():
 
@@ -57,6 +55,7 @@ def on_leave():
     room_code = room.room_code
     leave_room(room_code)
     
+    # only update room if any users are left
     if Room.exists(room_code):
         room_data = room.export()
         emit('updateRoom', room_data, broadcast = True, room = room_code)
@@ -65,12 +64,9 @@ def on_leave():
         msg_item = {'username': 'Bot', 'emoji': '&#129302;', 'message': f'{deleted_user["username"]} left the room.'}
         emit('chatMSG', msg_item, broadcast=True, room=room_code)
 
-
-
 @socketio.on('startRound')
 def start_game(data):
     room_code = data['roomCode']
-
     room = Room(room_code)
 
     room.start_game()
@@ -80,6 +76,7 @@ def start_game(data):
 @socketio.on('updateRoom')
 def update_room(data):
     room_code = data['roomCode']
+    
     room = Room(room_code)
 
     room_data = room.export()
@@ -90,6 +87,7 @@ def update_room(data):
 @socketio.on('randomizePages')
 def randomize(data):
     room_code = data['roomCode']
+    
     room = Room(room_code)
 
     room.randomize_pages()
@@ -102,14 +100,16 @@ def randomize(data):
 def get_wikipage(data):
     room_code = data['roomCode']
     page_name = data['wikiPage']
+    
     room = Room(room_code)
 
     page = Page(page_name, room.target_page).export()
     emit('updatePage', page)
+    
     winner = room.update_game(request.sid, page_name)
 
     if winner is not None:
-        emit('endRound', winner.export(), broadcast=True, room=room_code)
+        emit('endRound', winner, broadcast=True, room=room_code)
 
 @socketio.on('updateTime')
 def update_time(data):
@@ -118,7 +118,7 @@ def update_time(data):
 
     room = Room(room_code)
 
-    room.set_time(request.sid, time)
+    room.set_user_field(request.sid, 'time', time)
 
 @socketio.on('chatMSG')
 def message(data):
@@ -128,7 +128,7 @@ def message(data):
 
     room = Room(room_code)
 
-    emoji = room.get_emoji(request.sid)
+    emoji = room.get_user_field(request.sid, 'emoji')
 
     msg_item = {'username': user_name, 'emoji': emoji, 'message': message}
 
