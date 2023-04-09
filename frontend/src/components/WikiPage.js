@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { socket } from "./Socket";
-import { useParams, Redirect, Link, useHistory } from "react-router-dom";
-import ReactHTMLParser from "react-html-parser";
+import { useParams, Navigate, Link, useNavigate } from "react-router-dom";
+import parse from 'html-react-parser';
 import Watch from "./Watch";
 import "./wiki-resources/common.css";
 import "./wiki-resources/vector.css";
@@ -14,7 +14,7 @@ function WikiPage({ roomCode }) {
   const [winner, setWinner] = useState({});
   const [gameOver, setGameOver] = useState(false);
   let { wikiPage } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     socket.emit("updatePage", { roomCode, wikiPage });
@@ -31,26 +31,17 @@ function WikiPage({ roomCode }) {
       setWinner(winnerData);
       socket.emit("updateTime", { roomCode, time: time + 1 });
       /* setTimeout(() => {
-        history.push(`/game/${roomCode}`);
+        navigate(`/game/${roomCode}`);
       }, 5000);  */
     });
 
+    // Don't let users use the back-button
+    // Navigate forward if back button is pressed
     window.addEventListener("popstate", () => {
-      history.go(1);
-
+      navigate(1);
     });
-  }, [wikiPage]);
 
-  function transform(node, index) {
-    if (
-      node.type === "tag" &&
-      node.name === "a" &&
-      node.children[0] &&
-      node.attribs.title
-    ) {
-      return <Link to={node.attribs.href}>{node.children[0].data}</Link>;
-    }
-  }
+  }, [wikiPage]);
 
   function formatTime(seconds) {
     const minutes = Math.floor(seconds/60)
@@ -65,7 +56,7 @@ function WikiPage({ roomCode }) {
 
 
   return roomCode === "" ? (
-    <Redirect to="/" />
+    <Navigate to="/" />
   ) : (
     <div className="wiki-container">
       {gameOver ? (
@@ -97,7 +88,18 @@ function WikiPage({ roomCode }) {
               className="mw-content-ltr"
             >
               <div>
-                {ReactHTMLParser(pageData["html"], { transform: transform })}
+                {parse(String(pageData["html"]), {
+                  replace: node => {
+                    if (
+                      node.type === "tag" &&
+                      node.name === "a" &&
+                      node.children[0] &&
+                      node.attribs.title
+                    ) {
+                      return <Link to={node.attribs.href}>{node.children[0].data}</Link>;
+                    }
+                  }
+                 })}
               </div>
             </div>
           </div>

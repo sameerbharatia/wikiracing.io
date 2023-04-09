@@ -4,8 +4,8 @@ import NewGame from "./components/NewGame";
 import JoinGame from "./components/JoinGame";
 import Game from "./components/Game";
 import WikiPage from "./components/WikiPage";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import "./Main.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import "./App.css";
 
 function App() {
   const [userName, setUserName] = useState("");
@@ -14,35 +14,20 @@ function App() {
   return (
     <Router>
       <div>
-        <Switch>
+        <Routes>
           <Route
             path="/game/:room"
-            children={<Game userName={userName} roomCode={roomCode} />}
+            element={<Game userName={userName} roomCode={roomCode} />}
           />
 
-          <Route exact path="/join_game">
-            <JoinGame
-              setUserName={setUserName}
-              setRoomCode={setRoomCode}
-            />
-          </Route>
+          <Route path="/join_game" element={<JoinGame setUserName={setUserName} setRoomCode={setRoomCode} />} />
 
-          <Route exact path="/new_game">
-            <NewGame
-              setUserName={setUserName}
-              setRoomCode={setRoomCode}
-            />
-          </Route>
+          <Route path="/new_game" element={<NewGame setUserName={setUserName} setRoomCode={setRoomCode} />} />
 
-          <Route
-            path="/wiki/:wikiPage"
-            children={<WikiPage roomCode={roomCode} />}
-          />
+          <Route path="/wiki/:wikiPage" element={<WikiPage roomCode={roomCode} />} />
 
-          <Route exact path="/">
-            <Index />
-          </Route>
-        </Switch>
+          <Route path="/" element={<Index />} />
+        </Routes>
       </div>
     </Router>
   );
