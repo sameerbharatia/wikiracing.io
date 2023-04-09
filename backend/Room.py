@@ -20,12 +20,12 @@ class Room:
         # Only add room to collection if it doesn't already exist
         if room is None:
             start_page, target_page = choice(pages)
-            room = {'_id': room_code, 
-                    'users': {}, 
+            room = {'_id': room_code,
+                    'users': {},
                     'start_page': start_page,
                     'target_page': target_page,
                     'round': 1,
-                    'emojis': sample(emojis, ROOM_LIMIT)}
+                    'emojis': sample(sorted(emojis), ROOM_LIMIT)}
 
             rooms.insert_one(room)
 
@@ -33,7 +33,7 @@ class Room:
     @property
     def room(self):
         return rooms.find_one({'_id': self.room_code})
-    
+
     @property
     def users(self):
         return self.room['users']
@@ -49,11 +49,11 @@ class Room:
     @property
     def round(self):
         return self.room['round']
-    
+
     @property
     def emojis(self):
         return self.room['emojis']
-    
+
     @property
     def empty(self):
         return len(self.room['users']) == 0
@@ -71,9 +71,13 @@ class Room:
 
     @staticmethod
     def room_from_user(user_id):
-        room_code = rooms.find_one({f'users.{user_id}.user_id': user_id})['_id']
-        return Room(room_code)
-    
+        room = rooms.find_one({f'users.{user_id}.user_id': user_id})
+        if room:
+            return Room(room['_id'])
+
+        #room_code = rooms.find_one({f'users.{user_id}.user_id': user_id})['_id']
+        return None
+
     @staticmethod
     def exists(room_code):
         return rooms.count_documents({'_id': room_code}) > 0
@@ -87,11 +91,11 @@ class Room:
 
     def get_user(self, user_id):
         return self.users.get(user_id, None)
-    
+
     def add_user(self, username, user_id):
         if self.get_user(user_id) is not None:
             return # raise error here?
-        
+
         admin_status = self.empty
 
         user = {'user_id': user_id,
@@ -102,7 +106,7 @@ class Room:
                 'wins': 0,
                 'time': 0,
                 'emoji': self.emojis.pop()}
-        
+
         rooms.update_one({'_id': self.room_code}, {'$set': {f'users.{user_id}': user},
                                                    '$pop': {'emojis': 1}})
 
@@ -130,7 +134,7 @@ class Room:
         start_page, target_page = choice(pages)
         rooms.update_one({'_id': self.room_code}, {'$set': {'start_page': start_page,
                                                             'target_page': target_page}})
-        
+
     def start_game(self):
         #Resets relevant user statistics for next round
         start_page = self.start_page
@@ -139,7 +143,7 @@ class Room:
                                                                 f'users.{user_id}.current_page': start_page}})
 
     def update_game(self, user_id, page):
-        rooms.update_one({'_id': self.room_code}, {'$inc': {f'users.{user_id}.clicks': 1}, 
+        rooms.update_one({'_id': self.room_code}, {'$inc': {f'users.{user_id}.clicks': 1},
                                                    '$set': {f'users.{user_id}.current_page': page}})
 
         user_page = page.lower()
@@ -148,7 +152,7 @@ class Room:
         # Return winner data using end_game method
         if user_page == target_page:
             return self.end_game(user_id)
-        
+
         return None
 
     def end_game(self, winner_id):
@@ -157,8 +161,8 @@ class Room:
         if winner is None:
             return
 
-        rooms.update_one({'_id': self.room_code}, {'$inc': {f'round': 1, 
-                                                            f'users.{winner_id}.wins': 1}})        
+        rooms.update_one({'_id': self.room_code}, {'$inc': {f'round': 1,
+                                                            f'users.{winner_id}.wins': 1}})
 
         self._randomize_pages()
 
@@ -166,9 +170,9 @@ class Room:
 
     def export(self):
         to_export = self.room
-        
+
         # switch from MongoDB use to internal use
         to_export['room_code'] = to_export.pop('_id')
 
         return to_export
-    
+

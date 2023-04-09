@@ -138,6 +138,10 @@ dmypy.json
 cython_debug/
 
 #sqlite cache
-cache.sqlite
+*cache.sqlite
+
+# macOS files
+**/.DS_Store
+../.DS_Store
 
 *.pem

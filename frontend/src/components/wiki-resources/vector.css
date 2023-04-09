@@ -167,7 +167,7 @@
       font-family: sans-serif;
     }
     ul {
-      list-style-image: url(/w/skins/Vector/resources/skins.vector.styles/images/bullet-icon.svg?d4515);
+      list-style-image: url(https://en.wikipedia.org/w/skins/Vector/resources/skins.vector.styles/images/bullet-icon.svg?d4515);
     }
     pre,
     .mw-code {
@@ -266,7 +266,7 @@
       margin: 0.5em 0;
     }
     .mw-parser-output .external {
-      background-image: url(/w/skins/Vector/resources/skins.vector.styles/images/external-link-ltr-icon.svg?b4b84);
+      background-image: url(https://en.wikipedia.org/w/skins/Vector/resources/skins.vector.styles/images/external-link-ltr-icon.svg?b4b84);
       background-position: center right;
       background-repeat: no-repeat;
       padding-right: 13px;
@@ -306,7 +306,7 @@
     /* Icon for registered user names & anonymous message */
     #pt-anonuserpage,
     #pt-userpage a {
-      background-image: url(/w/skins/Vector/resources/skins.vector.styles/images/user-avatar.svg?b7f58);
+      background-image: url(https://en.wikipedia.org/w/skins/Vector/resources/skins.vector.styles/images/user-avatar.svg?b7f58);
       background-position: left 0.33333333em;
       background-repeat: no-repeat;
       background-size: 1.16666667em 1.16666667em;
@@ -423,7 +423,7 @@
       z-index: 1;
     }
     #searchButton {
-      background-image: url(/w/skins/Vector/resources/skins.vector.styles/images/search.svg?4d50a);
+      background-image: url(https://en.wikipedia.org/w/skins/Vector/resources/skins.vector.styles/images/search.svg?4d50a);
       background-position: center center;
       background-repeat: no-repeat;
     }
@@ -449,7 +449,7 @@
       padding: 0;
     }
     .vector-menu-tabs li {
-      background-image: url(/w/skins/Vector/resources/skins.vector.styles/images/tab-normal-fade.png?1cc52);
+      background-image: url(https://en.wikipedia.org/w/skins/Vector/resources/skins.vector.styles/images/tab-normal-fade.png?1cc52);
       background-image: linear-gradient(to top, #77c1f6 0, #e8f2f8 1px, #ffffff 100%);
       background-position: left bottom;
       background-repeat: repeat-x;
@@ -552,29 +552,29 @@
       height: 1.23076923em;
     }
     .vector-menu-tabs #ca-unwatch.icon a:before {
-      background-image: linear-gradient(transparent, transparent), url(/w/skins/Vector/resources/skins.vector.styles/images/unwatch-icon.svg?436dd);
+      background-image: linear-gradient(transparent, transparent), url(https://en.wikipedia.org/w/skins/Vector/resources/skins.vector.styles/images/unwatch-icon.svg?436dd);
     }
     .vector-menu-tabs #ca-unwatch.mw-watchlink-temp.icon a:before {
-      background-image: linear-gradient(transparent, transparent), url(/w/skins/Vector/resources/skins.vector.styles/images/unwatch-temp-icon.svg?60ddc);
+      background-image: linear-gradient(transparent, transparent), url(https://en.wikipedia.org/w/skins/Vector/resources/skins.vector.styles/images/unwatch-temp-icon.svg?60ddc);
     }
     .vector-menu-tabs #ca-watch.icon a:before {
-      background-image: linear-gradient(transparent, transparent), url(/w/skins/Vector/resources/skins.vector.styles/images/watch-icon.svg?257a2);
+      background-image: linear-gradient(transparent, transparent), url(https://en.wikipedia.org/w/skins/Vector/resources/skins.vector.styles/images/watch-icon.svg?257a2);
     }
     .vector-menu-tabs #ca-unwatch.icon a:hover:before,
     .vector-menu-tabs #ca-unwatch.icon a:focus:before {
-      background-image: linear-gradient(transparent, transparent), url(/w/skins/Vector/resources/skins.vector.styles/images/unwatch-icon-hl.svg?c58d6);
+      background-image: linear-gradient(transparent, transparent), url(https://en.wikipedia.org/w/skins/Vector/resources/skins.vector.styles/images/unwatch-icon-hl.svg?c58d6);
     }
     .vector-menu-tabs #ca-unwatch.mw-watchlink-temp.icon a:hover:before,
     .vector-menu-tabs #ca-unwatch.mw-watchlink-temp.icon a:focus:before {
-      background-image: linear-gradient(transparent, transparent), url(/w/skins/Vector/resources/skins.vector.styles/images/unwatch-temp-icon-hl.svg?ba7a8);
+      background-image: linear-gradient(transparent, transparent), url(https://en.wikipedia.org/w/skins/Vector/resources/skins.vector.styles/images/unwatch-temp-icon-hl.svg?ba7a8);
     }
     .vector-menu-tabs #ca-watch.icon a:hover:before,
     .vector-menu-tabs #ca-watch.icon a:focus:before {
-      background-image: linear-gradient(transparent, transparent), url(/w/skins/Vector/resources/skins.vector.styles/images/watch-icon-hl.svg?2440e);
+      background-image: linear-gradient(transparent, transparent), url(https://en.wikipedia.org/w/skins/Vector/resources/skins.vector.styles/images/watch-icon-hl.svg?2440e);
     }
     .vector-menu-tabs #ca-unwatch.icon .loading:before,
     .vector-menu-tabs #ca-watch.icon .loading:before {
-      background-image: linear-gradient(transparent, transparent), url(/w/skins/Vector/resources/skins.vector.styles/images/watch-icon-loading.svg?ec812);
+      background-image: linear-gradient(transparent, transparent), url(https://en.wikipedia.org/w/skins/Vector/resources/skins.vector.styles/images/watch-icon-loading.svg?ec812);
       -webkit-animation: rotate 700ms infinite linear;
       -moz-animation: rotate 700ms infinite linear;
       animation: rotate 700ms infinite linear;
@@ -610,7 +610,7 @@
     }
     .vector-menu-dropdown h3:after {
       content: '';
-      background-image: url(/w/skins/Vector/resources/skins.vector.styles/images/arrow-down.svg?e7827);
+      background-image: url(https://en.wikipedia.org/w/skins/Vector/resources/skins.vector.styles/images/arrow-down.svg?e7827);
       background-position: 100% 50%;
       background-repeat: no-repeat;
       position: absolute;
@@ -685,11 +685,12 @@
     .vector-menu-tabs,
     .vector-menu-tabs a,
     #mw-head .vector-menu-dropdown h3 {
-      background-image: url(/w/skins/Vector/resources/skins.vector.styles/images/tab-separator.png?09d4b);
+      background-image: url(https://en.wikipedia.org/w/skins/Vector/resources/skins.vector.styles/images/tab-separator.png?09d4b);
       background-image: linear-gradient(to bottom, rgba(167, 215, 249, 0) 0, #a7d7f9 100%);
       background-repeat: no-repeat;
       background-size: 1px 100%;
     }
+
     .vector-menu-checkbox {
       cursor: pointer;
       position: absolute;
@@ -722,7 +723,7 @@
     .portal h3,
     .vector-menu-portal h3 {
       display: block;
-      background-image: url(/w/skins/Vector/resources/skins.vector.styles/images/portal-separator.png?4ab04);
+      background-image: url(https://en.wikipedia.org/w/skins/Vector/resources/skins.vector.styles/images/portal-separator.png?4ab04);
       background-image: linear-gradient(to right, rgba(200, 204, 209, 0) 0, #c8ccd1 33%, #c8ccd1 66%, rgba(200, 204, 209, 0) 100%);
       background-position: center bottom;
       background-repeat: no-repeat;
@@ -1028,7 +1029,7 @@
       font-weight: bold;
     }
   }
-  
+
   /* stylelint-disable-next-line selector-class-pattern */
   .firstHeading:before {
     content: url(//en.wikipedia.org/static/images/mobile/copyright/wikipedia-wordmark-en.svg);
@@ -1040,7 +1041,7 @@
     position: absolute;
     width: 119px;
   }
-  
+
   /* stylelint-disable selector-class-pattern */
   .messagebox,
   .errorbox,
@@ -1091,7 +1092,7 @@
   .successbox {
     background-color: #d5fdf4;
     border-color: #14866d;
-  }.mw-wiki-logo { background-image: url(/static/images/project-logos/enwiki.png); }@media screen {
+  }.mw-wiki-logo { background-image: url(//en.wikipedia.org/static/images/project-logos/enwiki.png); }@media screen {
       /**
        * MediaWiki style sheet for addressing (normalizing) browser bugs and inconsistencies.
        *
@@ -1148,7 +1149,7 @@
         color: inherit;
         padding: 0;
       }
-      
+
       /**
        * MediaWiki style sheet for general styles on basic content elements
        *
@@ -1156,33 +1157,33 @@
        *
        * This style sheet is used by the Monobook and Vector skins.
        */
-      
+
       /* stylelint-disable selector-class-pattern */
-      
+
       /* Links */
       a {
           text-decoration: none;
           color: #0645ad;
           background: none;
       }
-      
+
       a:not( [ href ] ) {
           cursor: pointer; /* Always cursor:pointer even without href */
       }
-      
+
       a:visited {
           color: #0b0080;
       }
-      
+
       a:active {
           color: #faa700;
       }
-      
+
       a:hover,
       a:focus {
           text-decoration: underline;
       }
-      
+
       a:lang( ar ),
       a:lang( kk-arab ),
       a:lang( mzn ),
@@ -1190,71 +1191,71 @@
       a:lang( ur ) {
           text-decoration: none;
       }
-      
+
       a.stub {
           color: #723;
       }
-      
+
       a.new,
       #p-personal a.new {
           color: #d33;
       }
-      
+
       /* self links */
       a.mw-selflink {
           color: inherit;
           font-weight: bold;
           text-decoration: inherit;
       }
-      
+
       a.mw-selflink:hover {
           cursor: inherit;
           text-decoration: inherit;
       }
-      
+
       a.mw-selflink:active,
       a.mw-selflink:visited {
           color: inherit;
       }
-      
+
       a.new:visited,
       #p-personal a.new:visited {
           color: #a55858;
       }
-      
+
       /* Interwiki & External links */
       .mw-parser-output a.extiw,
       .mw-parser-output a.external {
           color: #36b;
       }
-      
+
       .mw-parser-output a.extiw:visited,
       .mw-parser-output a.external:visited {
           color: #636; /* See T5112. */
       }
-      
+
       .mw-parser-output a.extiw:active,
       .mw-parser-output a.external:active {
           color: #b63;
       }
-      
+
       .mw-parser-output a.external.free {
           word-wrap: break-word;
       }
-      
+
       /* Inline Elements */
       img {
           border: 0; /* FIXME: Remove after adding 'normalize.less' added to all 'elements.less' calling skins. */
           vertical-align: middle;
       }
-      
+
       hr {
           height: 1px;
           background-color: #a2a9b1;
           border: 0;
           margin: 0.2em 0;
       }
-      
+
       /* Structural Elements */
       .wiki-container h1,
       .wiki-container h2,
@@ -1268,83 +1269,83 @@
           padding-bottom: 0.17em;
           overflow: hidden;
       }
-      
+
       .wiki-container h1,
       .wiki-container h2 {
           margin-bottom: 0.6em;
           border-bottom: 1px solid #a2a9b1;
       }
-      
+
       .wiki-container h3,
       .wiki-container h4,
       .wiki-container h5 {
           margin-bottom: 0.3em;
       }
-      
+
       .wiki-container h1 {
           font-size: 188%;
           font-weight: normal;
       }
-      
+
       .wiki-container h2 {
           font-size: 150%;
           font-weight: normal;
       }
-      
+
       .wiki-container h3 {
           font-size: 128%;
       }
-      
+
       .wiki-container h4 {
           font-size: 116%;
       }
-      
+
       .wiki-container h5 {
           font-size: 108%;
       }
-      
+
       .wiki-container h6 {
           font-size: 100%;
       }
-      
+
       .wiki-container p {
           margin: 0.4em 0 0.5em 0;
       }
-      
+
       .wiki-container p img {
           margin: 0;
       }
-      
+
       .wiki-container ul {
           margin: 0.3em 0 0 1.6em;
           padding: 0;
       }
-      
+
       .wiki-container ol {
           margin: 0.3em 0 0 3.2em;
           padding: 0;
           list-style-image: none;
       }
-      
+
       .wiki-container li {
           margin-bottom: 0.1em;
       }
-      
+
       .wiki-container dt {
           font-weight: bold;
           margin-bottom: 0.1em;
       }
-      
+
       .wiki-container dl {
           margin-top: 0.2em;
           margin-bottom: 0.5em;
       }
-      
+
       .wiki-container dd {
           margin-left: 1.6em;
           margin-bottom: 0.1em;
       }
-      
+
       /* FIXME: Duplicated ruleset if skins using ResourceLoaderSkinModule
       load the features `normalize` and `elements`. */
       pre,
@@ -1356,7 +1357,7 @@
           /* Support: Blink, Gecko, Webkit; enable unified font sizes for monospace font. T176636 */
           font-family: monospace, monospace;
       }
-      
+
       code {
           color: #000;
           background-color: #f8f9fa;
@@ -1364,7 +1365,7 @@
           border-radius: 2px;
           padding: 1px 4px;
       }
-      
+
       pre,
       .mw-code {
           color: #000;
@@ -1378,30 +1379,30 @@
           /* Break really long words when they overflow to the next line */
           word-wrap: break-word;
       }
-      
+
       /* Tables */
       .wiki-container table {
           font-size: 100%;
           width: 100%;
       }
-      
+
       /* Forms */
       .wiki-container fieldset {
           border: 1px solid #2a4b8d;
           margin: 1em 0 1em 0;
           padding: 0 1em 1em;
       }
-      
+
       .wiki-container legend {
           padding: 0.5em;
           font-size: 95%;
       }
-      
+
       .wiki-container form {
           border: 0;
           margin: 0;
       }
-      
+
       .wiki-container textarea {
           width: 100%;
           padding: 0.1em;
@@ -1410,36 +1411,36 @@
           -webkit-box-sizing: border-box;
           box-sizing: border-box;
       }
-      
+
       /* Emulate Center */
       .center {
           width: 100%;
           text-align: center;
       }
-      
+
       *.center * {
           margin-left: auto;
           margin-right: auto;
       }
-      
+
       /* Small for tables and similar */
       .small {
           font-size: 94%;
       }
-      
+
       table.small {
           font-size: 100%;
       }
-      
+
       /**
        * MediaWiki style sheet for general styles on complex content
        *
        * Styles for complex things which are a standard part of page content
        * (ie: the CSS classing built into the system), like the TOC.
        */
-      
+
       /* stylelint-disable selector-class-pattern */
-      
+
       /* Table of Contents */
       .toc,
       .mw-warning,
@@ -1449,7 +1450,7 @@
           padding: 5px;
           font-size: 95%;
       }
-      
+
       /**
        * We want to display the ToC element with intrinsic width in block mode. The fit-content
        * value for width is however not supported by large groups of browsers.
@@ -1461,17 +1462,17 @@
           display: table;
           padding: 7px;
       }
-      
+
       /* CSS for backwards-compatibility with cached page renders and creative uses in wikitext */
       table.toc {
           border-collapse: collapse;
       }
-      
+
       /* Remove additional paddings inside table-cells that are not present in <div>s */
       table.toc td {
           padding: 0;
       }
-      
+
       .toc h2 {
           display: inline;
           border: 0;
@@ -1479,11 +1480,11 @@
           font-size: 100%;
           font-weight: bold;
       }
-      
+
       .toc .toctitle {
           text-align: center;
       }
-      
+
       .toc ul {
           list-style-type: none;
           list-style-image: none;
@@ -1491,11 +1492,11 @@
           padding: 0;
           text-align: left;
       }
-      
+
       .toc ul ul {
           margin: 0 0 0 2em;
       }
-      
+
       /* Separate columns for tocnumber and toctext */
       .tocnumber,
       .toctext {
@@ -1507,7 +1508,7 @@
            */
           text-decoration: inherit;
       }
-      
+
       /* Space between the columns for tocnumber and toctext */
       .tocnumber {
           color: #202122;
@@ -1519,40 +1520,40 @@
           padding-left: 0;
           padding-right: 0.5em;
       }
-      
+
       /* @noflip */
       .mw-content-rtl .tocnumber {
           padding-left: 0.5em;
           padding-right: 0;
       }
-      
+
       /* Warning */
       .mw-warning {
           margin-left: 50px;
           margin-right: 50px;
           text-align: center;
       }
-      
+
       /* Images */
       /* @noflip */
       div.floatright,
       table.floatright {
           margin: 0 0 0.5em 0.5em;
       }
-      
+
       /* @noflip */
       div.floatleft,
       table.floatleft {
           margin: 0 0.5em 0.5em 0;
       }
-      
+
       /* Thumbnails */
       div.thumb {
           margin-bottom: 0.5em;
           width: auto;
           background-color: transparent;
       }
-      
+
       div.thumbinner {
           border: 1px solid #c8ccd1;
           padding: 3px;
@@ -1563,12 +1564,12 @@
            * to clear background from floating content */
           overflow: hidden;
       }
-      
+
       html .thumbimage {
           background-color: #fff;
           border: 1px solid #c8ccd1;
       }
-      
+
       html .thumbcaption {
           border: 0;
           line-height: 1.4em;
@@ -1577,13 +1578,13 @@
           /* Default styles when there's no .mw-content-ltr or .mw-content-rtl, overridden below */
           text-align: left;
       }
-      
+
       .magnify {
           /* Default styles when there's no .mw-content-ltr or .mw-content-rtl, overridden below */
           float: right;
           margin-left: 3px;
       }
-      
+
       .magnify a {
           display: block;
           /* Hide the text… */
@@ -1594,78 +1595,78 @@
           width: 15px;
           height: 11px;
           /* Default styles when there's no .mw-content-ltr or .mw-content-rtl, overridden below */
-      
+
           /* Use same SVG support hack as mediawiki.legacy's shared.css */
-          background-image: url(/w/resources/src/mediawiki.skinning/images/magnify-clip-ltr.png?4f704);
-          background-image: linear-gradient( transparent, transparent ), url(/w/resources/src/mediawiki.skinning/images/magnify-clip-ltr.svg?8330e);
+          background-image: url(https://en.wikipedia.org/w/resources/src/mediawiki.skinning/images/magnify-clip-ltr.png?4f704);
+          background-image: linear-gradient( transparent, transparent ), url(https://en.wikipedia.org/w/resources/src/mediawiki.skinning/images/magnify-clip-ltr.svg?8330e);
           /* Don't annoy people who copy-paste everything too much */
           -moz-user-select: none;
           -webkit-user-select: none;
           -ms-user-select: none;
           user-select: none;
       }
-      
+
       img.thumbborder {
           border: 1px solid #eaecf0;
       }
-      
+
       /* Directionality-specific styles for thumbnails - their positioning depends on content language */
-      
+
       /* @noflip */
       .mw-content-ltr .thumbcaption {
           text-align: left;
       }
-      
+
       /* @noflip */
       .mw-content-ltr .magnify {
           float: right;
           margin-left: 3px;
           margin-right: 0;
       }
-      
+
       /* @noflip */
       .mw-content-ltr .magnify a {
           /* Use same SVG support hack as mediawiki.legacy's shared.css */
-          background-image: url(/w/resources/src/mediawiki.skinning/images/magnify-clip-ltr.png?4f704);
-          background-image: linear-gradient( transparent, transparent ), url(/w/resources/src/mediawiki.skinning/images/magnify-clip-ltr.svg?8330e);
+          background-image: url(https://en.wikipedia.org/w/resources/src/mediawiki.skinning/images/magnify-clip-ltr.png?4f704);
+          background-image: linear-gradient( transparent, transparent ), url(https://en.wikipedia.org/w/resources/src/mediawiki.skinning/images/magnify-clip-ltr.svg?8330e);
       }
-      
+
       /* @noflip */
       .mw-content-rtl .thumbcaption {
           text-align: right;
       }
-      
+
       /* @noflip */
       .mw-content-rtl .magnify {
           float: left;
           margin-left: 0;
           margin-right: 3px;
       }
-      
+
       /* @noflip */
       .mw-content-rtl .magnify a {
           /* Use same SVG support hack as mediawiki.legacy's shared.css */
-          background-image: url(/w/resources/src/mediawiki.skinning/images/magnify-clip-rtl.png?a9fb3);
-          background-image: linear-gradient( transparent, transparent ), url(/w/resources/src/mediawiki.skinning/images/magnify-clip-rtl.svg?38fd5);
+          background-image: url(https://en.wikipedia.org/w/resources/src/mediawiki.skinning/images/magnify-clip-rtl.png?a9fb3);
+          background-image: linear-gradient( transparent, transparent ), url(https://en.wikipedia.org/w/resources/src/mediawiki.skinning/images/magnify-clip-rtl.svg?38fd5);
       }
-      
+
       /* @noflip */
       div.tright {
           margin: 0.5em 0 1.3em 1.4em;
       }
-      
+
       /* @noflip */
       div.tleft {
           margin: 0.5em 1.4em 1.3em 0;
       }
-      
+
       /* Hide elements that are marked as "empty" according to legacy Tidy rules,
        * except if a client script removes the mw-hide-empty-elt class from the body
        */
       body.mw-hide-empty-elt .mw-empty-elt {
           display: none;
       }
-      
+
       /**
        * MediaWiki style sheet for common core styles on interfaces
        *
@@ -1673,9 +1674,9 @@
        * These ids/classes are not built into the system,
        * they are outputted by the actual MonoBook/Vector code by convention.
        */
-      
+
       /* stylelint-disable selector-class-pattern */
-      
+
       /* Categories */
       .catlinks {
           border: 1px solid #a2a9b1;
@@ -1684,13 +1685,13 @@
           margin-top: 1em;
           clear: both;
       }
-      
+
       textarea {
           /* Support: Firefox */
           /* Border rule required to override system appearance on Linux (T136415) */
           border: 1px solid #c8ccd1;
       }
-      
+
       .editOptions {
           background-color: #eaecf0;
           color: #202122;
@@ -1699,7 +1700,7 @@
           padding: 1em 1em 1.5em 1em;
           margin-bottom: 2em;
       }
-      
+
       .usermessage {
           background-color: #ffce7b;
           border: 1px solid #ffa500;
@@ -1709,22 +1710,22 @@
           padding: 0.5em 1em;
           vertical-align: middle;
       }
-      
+
       #siteNotice {
           position: relative;
           text-align: center;
           margin: 0;
       }
-      
+
       #localNotice {
           margin-bottom: 0.9em;
       }
-      
+
       /* Sub-navigation */
       #siteSub {
           display: none;
       }
-      
+
       #contentSub,
       #contentSub2 {
           font-size: 84%;
@@ -1733,16 +1734,16 @@
           color: #54595d;
           width: auto;
       }
-      
+
       span.subpages {
           display: block;
       }
-      
+
       /* Hide links which require JavaScript to work */
       .client-nojs #t-print {
           display: none; /* T167956 */
       }
-      
+
       /**
        * CSS in this file is used by *all* skins (that have any CSS at all). Be
        * careful what you put in here, since what looks good in one skin may not in
@@ -2102,7 +2103,7 @@
         background-color: #eaf3ff;
       }
       .mw-ajax-loader {
-        background-image: url(/w/resources/src/mediawiki.skinning/images/ajax-loader.gif?57f34);
+        background-image: url(https://en.wikipedia.org/w/resources/src/mediawiki.skinning/images/ajax-loader.gif?57f34);
         background-position: center center;
         background-repeat: no-repeat;
         padding: 16px;
@@ -2113,7 +2114,7 @@
         padding: 10px !important;
         /* stylelint-disable-line declaration-no-important */
         margin-right: 0.6em;
-        background-image: url(/w/resources/src/mediawiki.skinning/images/spinner.gif?ca65b);
+        background-image: url(https://en.wikipedia.org/w/resources/src/mediawiki.skinning/images/spinner.gif?ca65b);
         background-position: center center;
         background-repeat: no-repeat;
       }
@@ -2424,7 +2425,7 @@
         left: auto;
         position: relative;
       }
-      
+
       /**
        * MediaWiki print style sheet
        * Largely based on work by Gabriel Wicke
@@ -2432,9 +2433,9 @@
        * Originally derived from Plone (https://plone.org/) styles
        * Copyright Alexander Limi
        */
-      
+
       /* stylelint-disable selector-class-pattern */
-      
+
       /**
        * Hide all the elements irrelevant for printing
        * Skins however can and should override.
@@ -2466,7 +2467,7 @@
       li#privacy {
           display: none;
       }
-      
+
       /**
        * Generic HTML elements
        */
@@ -2476,13 +2477,13 @@
           margin: 0;
           padding: 0;
       }
-      
+
       /* Links */
       a {
           background: none !important; /* stylelint-disable-line declaration-no-important */
           padding: 0 !important; /* stylelint-disable-line declaration-no-important */
       }
-      
+
       a,
       a.external,
       a.new,
@@ -2490,7 +2491,7 @@
           color: inherit !important; /* stylelint-disable-line declaration-block-no-duplicate-properties, declaration-no-important */
           text-decoration: inherit !important; /* stylelint-disable-line declaration-block-no-duplicate-properties, declaration-no-important */
       }
-      
+
       /* Expand URLs for printing */
       .mw-parser-output a.external.text:after,
       .mw-parser-output a.external.autonumber:after {
@@ -2498,17 +2499,17 @@
           word-break: break-all;
           word-wrap: break-word;
       }
-      
+
       /* Expand protocol-relative URLs for printing */
       .mw-parser-output a.external.text[ href^='//' ]:after,
       .mw-parser-output a.external.autonumber[ href^='//' ]:after {
           content: ' (https:' attr( href ) ')';
       }
-      
+
       dt {
           font-weight: bold;
       }
-      
+
       h1,
       h2,
       h3,
@@ -2520,7 +2521,7 @@
           page-break-after: avoid;
           page-break-before: avoid;
       }
-      
+
       p {
           margin: 1em 0;
           line-height: 1.2;
@@ -2528,7 +2529,7 @@
           orphans: 3;
           widows: 3;
       }
-      
+
       img,
       figure,
       .wikitable,
@@ -2536,12 +2537,12 @@
           /* Pagination */
           page-break-inside: avoid;
       }
-      
+
       img {
           border: 0;
           vertical-align: middle;
       }
-      
+
       pre,
       .mw-code {
           background: #fff;
@@ -2555,17 +2556,17 @@
           /* Break really long words when they overflow to the next line */
           word-wrap: break-word;
       }
-      
+
       /* Prevent citations and subscripts from interfering with the line-height */
       sup,
       sub {
           line-height: 1;
       }
-      
+
       ul {
           list-style-type: square;
       }
-      
+
       /**
        * MediaWiki-specific elements
        */
@@ -2573,7 +2574,7 @@
           width: 100% !important; /* stylelint-disable-line declaration-no-important */
           min-width: 0 !important; /* stylelint-disable-line declaration-no-important */
       }
-      
+
       .mw-body {
           background: #fff;
           color: #000;
@@ -2582,47 +2583,47 @@
           margin: 0 !important; /* stylelint-disable-line declaration-no-important */
           direction: ltr;
       }
-      
+
       #column-content {
           margin: 0 !important; /* stylelint-disable-line declaration-no-important */
       }
-      
+
       #column-content .mw-body {
           padding: 1em;
           margin: 0 !important; /* stylelint-disable-line declaration-no-important */
       }
-      
+
       .toc {
           background-color: #f9f9f9;
           border: 1pt solid #aaa;
           padding: 5px;
           display: table;
       }
-      
+
       /* Separate columns for `.tocnumber` and `.toctext` */
       .tocnumber,
       .toctext {
           display: table-cell;
       }
-      
+
       /* Space between those columns */
       .tocnumber {
           padding-left: 0;
           padding-right: 0.5em;
       }
-      
+
       /* @noflip */
       .mw-content-ltr .tocnumber {
           padding-left: 0;
           padding-right: 0.5em;
       }
-      
+
       /* @noflip */
       .mw-content-rtl .tocnumber {
           padding-left: 0.5em;
           padding-right: 0;
       }
-      
+
       /**
        * Floating divs (and thumbnails)
        */
@@ -2633,7 +2634,7 @@
           float: right;
           clear: right;
       }
-      
+
       /* @noflip */
       table.floatleft,
       div.floatleft,
@@ -2641,35 +2642,35 @@
           float: left;
           clear: left;
       }
-      
+
       /* @noflip */
       div.tleft {
           margin: 0.5em 1.4em 1.3em 0;
       }
-      
+
       /* @noflip */
       div.tright {
           margin: 0.5em 0 1.3em 1.4em;
       }
-      
+
       /* @noflip */
       table.floatright,
       div.floatright {
           margin: 0 0 0.5em 0.5em;
           border: 0;
       }
-      
+
       /* @noflip */
       table.floatleft,
       div.floatleft {
           margin: 0 0.5em 0.5em 0;
           border: 0;
       }
-      
+
       .center {
           text-align: center;
       }
-      
+
       /**
        * Thumbnails
        */
@@ -2677,11 +2678,11 @@
           background-color: transparent;
           width: auto;
       }
-      
+
       div.thumb a {
           border-bottom: 0;
       }
-      
+
       div.thumbinner {
           background-color: #fff;
           border: 0;
@@ -2695,17 +2696,17 @@
           overflow: hidden;
           min-width: 100px;
       }
-      
+
       html .thumbcaption {
           text-align: left;
           line-height: 1.4;
           padding: 3px;
       }
-      
+
       img.thumbborder {
           border: 1pt solid #ddd;
       }
-      
+
       /**
        * Table rendering
        */
@@ -2718,13 +2719,13 @@
           border-collapse: collapse;
           font-size: 10pt;
       }
-      
+
       .wikitable > caption,
       .mw_metadata caption {
           padding: 5px;
           font-size: 10pt;
       }
-      
+
       .wikitable > tr > th,
       .wikitable > tr > td,
       .wikitable > * > tr > th,
@@ -2738,19 +2739,19 @@
           border: 1pt solid #aaa;
           padding: 0.4em 0.6em;
       }
-      
+
       .wikitable > tr > th,
       .wikitable > * > tr > th,
       .mw_metadata th {
           text-align: center;
       }
-      
+
       table.listing,
       table.listing td {
           border: 1pt solid #000;
           border-collapse: collapse;
       }
-      
+
       /**
        * Categories
        */
@@ -2759,7 +2760,7 @@
           padding: 0;
           list-style: none none;
       }
-      
+
       .catlinks li {
           display: inline-block;
           line-height: 1.15;
@@ -2767,19 +2768,19 @@
           border-left: 1pt solid #aaa;
           padding: 0 0.4em;
       }
-      
+
       .catlinks li:first-child {
           border-left: 0;
           padding-left: 0.2em;
       }
-      
+
       /**
        * Footer
        */
       .printfooter {
           padding: 1em 0;
       }
-      
+
       #footer {
           background: #fff;
           color: #000;
@@ -2788,5 +2789,5 @@
           padding-top: 5px;
           direction: ltr;
       }}@media (-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx), (min-resolution: 144dpi) {
-      .mw-wiki-logo { background-image: url(/static/images/project-logos/enwiki-1.5x.png);background-size: 135px auto; }}@media (-webkit-min-device-pixel-ratio: 2), (min--moz-device-pixel-ratio: 2), (min-resolution: 2dppx), (min-resolution: 192dpi) {
-      .mw-wiki-logo { background-image: url(/static/images/project-logos/enwiki-2x.png);background-size: 135px auto; }}
+      .mw-wiki-logo { background-image: url(//en.wikipedia.org/static/images/project-logos/enwiki-1.5x.png);background-size: 135px auto; }}@media (-webkit-min-device-pixel-ratio: 2), (min--moz-device-pixel-ratio: 2), (min-resolution: 2dppx), (min-resolution: 192dpi) {
+      .mw-wiki-logo { background-image: url(//en.wikipedia.org/static/images/project-logos/enwiki-2x.png);background-size: 135px auto; }}

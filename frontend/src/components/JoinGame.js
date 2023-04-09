@@ -1,19 +1,20 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { backend_url } from "./Socket";
 import "./LoginPage.css";
 
 function JoinGame({ setUserName, setRoomCode }) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { register, handleSubmit, errors } = useForm();
   const ROOM_LIMIT = 8;
 
-  function onSubmit(data) {
+  async function onSubmit(data) {
     setUserName(data.userName);
     const roomCode = data.roomCode;
     setRoomCode(String(roomCode));
-    history.push(`/game/${roomCode}`);
+    navigate(`/game/${roomCode}`);
   }
 
   return (
@@ -55,7 +56,7 @@ function JoinGame({ setUserName, setRoomCode }) {
                   message: "Room Code must be a 4 digit number.",
                 },
                 validate: async (roomCode) => {
-                  let valid = fetch("https://wikiracing-backend.herokuapp.com/validation_data")
+                  let valid = fetch(backend_url + "/validation_data")
                     .then((res) => {
                       return res.json();
                     })

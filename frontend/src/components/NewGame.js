@@ -1,18 +1,25 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { backend_url } from "./Socket";
 import "./LoginPage.css";
 
 function NewGame({ setUserName, setRoomCode }) {
-  const history = useHistory();
-  const { register, handleSubmit, errors } = useForm();
+  const navigate = useNavigate();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
-  function onSubmit(data) {
+  const onSubmit = (data) => {
     setUserName(data.userName);
 
     //generate a new, unique room code and go to new room
-    fetch("https://wikiracing-backend.herokuapp.com/validation_data")
+    // const requestOptions = {
+    //   headers: {
+    //     'Access-Control-Allow-Origin' : '*',
+    //     'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+    //     }
+    // };
+    fetch(backend_url + "/validation_data")
       .then((res) => {
         return res.json();
       })
@@ -22,10 +29,10 @@ function NewGame({ setUserName, setRoomCode }) {
           room = Math.floor(1000 + Math.random() * 9000);
         }
         setRoomCode(String(room))
-        history.push(`/game/${room}`);
+        navigate(`/game/${room}`);
       });
 
-  }
+  };
 
   return (
     <div className="wrapper">
@@ -40,8 +47,7 @@ function NewGame({ setUserName, setRoomCode }) {
               className="main-input"
               autoFocus
               placeholder="Username"
-              name="userName"
-              ref={register({
+              {...register("userName", {
                 required: "Username is required.",
                 minLength: {
                   value: 3,

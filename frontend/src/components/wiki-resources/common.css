@@ -1166,7 +1166,7 @@ table#mw-prefixindex-nav-table {
 		/* Light gray padding */
 		background-color: #f8f9fa;
 	}
-	
+
 	/* Put a chequered background behind images, only visible if they have transparency.
 	'.filehistory a img' and '#file img:hover' are handled by MediaWiki core (as of 1.19) */
 	.gallerybox .thumb img {
@@ -1288,7 +1288,7 @@ div.flaggedrevs_short {
 	#mw-revision-nav {
 		display: none !important;
 	}
-	
+
 	/* Add formatting to make sure that "external references" from templates
 	   like [[Template:Ref]] do not get URL expansion, not even when printed.
 	   The anchor itself has class "external autonumber" and the url expansion
@@ -1300,7 +1300,7 @@ div.flaggedrevs_short {
 	.nourlexpansion a.external.autonumber:after {
 		display: none !important;
 	}
-	
+
 	/* Uncollapse collapsible tables/divs.
 	   The proper way to do this for tables is to use display:table-row,
 	   but this is not supported by all browsers, so use display:block as fallback.
@@ -1324,18 +1324,18 @@ div.flaggedrevs_short {
 	.mw-parser-output ul.mw-collapsed > li {
 		display: list-item !important;
 	}
-	
+
 	/* On websites with siteSub visible, the margin on the firstHeading is not needed. */
 	#firstHeading {
 		margin: 0;
 	}
-	
+
 	/* We don't want very long URLs (that are added to the content in print) to widen the canvas */
 	#content a.external.text:after,
 	#content a.external.autonumber:after {
 		word-wrap: break-word;
 	}
-	
+
 	/*
 	- Basic infobox styling
 	- Remove background colors, they are hard to print
@@ -1347,13 +1347,13 @@ div.flaggedrevs_short {
 		border-collapse: collapse;
 		width: 180pt !important; /*T174957*/
 	}
-	
+
 	.infobox > * > tr > td,
 	.infobox > * > tr > th {
 		padding: 2px 5px;
-		border-bottom: 1px solid #EAECF0;		
+		border-bottom: 1px solid #EAECF0;
 	}
-	
+
 	/* Reduce noise for print medium - labels may be links */
 	.infobox a,
 	/* reset last border (set above) of infobox */
@@ -1361,18 +1361,18 @@ div.flaggedrevs_short {
 	.infobox > * > tr:last-child > td {
 		border: 0;
 	}
-	
+
 	/* References */
 	.refbegin a,
 	.references a,
 	.reference a {
 		color: black !important;
 	}
-	
+
 	.reference a {
 		border-bottom: 0;
 	}
-	
+
 	ol.references,
 	div.reflist,
 	div.refbegin,
@@ -1380,13 +1380,13 @@ div.flaggedrevs_short {
 		/* Override any editor added inline styles that play with font-size */
 		font-size: inherit !important;
 	}
-	
+
 	.refbegin  li,
 	.references li{
 		color: #666;
 		line-height: 14pt;
 	}
-	
+
 	.printfooter {
 		clear:both;
 	}}

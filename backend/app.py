@@ -8,11 +8,11 @@ import requests
 import requests_cache
 
 app = Flask(__name__)
-cors = CORS(app)
+CORS(app,resources={r"/*":{"origins":"*"}})
 
-app.config.from_object('config.ProdConfig')
+app.config.from_object('config.DevConfig')
 
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins='*', logger=True, engineio_logger=True)
 
 requests_cache.install_cache()
 
@@ -30,12 +30,12 @@ def validation():
 def on_join(data):
     username = data['userName']
     room_code = data['roomCode']
-    
+
     #ensure that redirects dont add empty users
     if username:
 
         room = Room(room_code)
-        
+
         room.add_user(username, request.sid)
         join_room(room_code)
 
@@ -54,7 +54,7 @@ def on_leave():
     deleted_user = room.delete_user(request.sid)
     room_code = room.room_code
     leave_room(room_code)
-    
+
     # only update room if any users are left
     if Room.exists(room_code):
         room_data = room.export()
@@ -76,7 +76,7 @@ def start_game(data):
 @socketio.on('updateRoom')
 def update_room(data):
     room_code = data['roomCode']
-    
+
     room = Room(room_code)
 
     room_data = room.export()
@@ -87,7 +87,7 @@ def update_room(data):
 @socketio.on('randomizePages')
 def randomize(data):
     room_code = data['roomCode']
-    
+
     room = Room(room_code)
 
     room.randomize_pages()
@@ -100,12 +100,12 @@ def randomize(data):
 def get_wikipage(data):
     room_code = data['roomCode']
     page_name = data['wikiPage']
-    
+
     room = Room(room_code)
 
     page = Page(page_name, room.target_page).export()
     emit('updatePage', page)
-    
+
     winner = room.update_game(request.sid, page_name)
 
     if winner is not None:
@@ -135,6 +135,6 @@ def message(data):
     emit('chatMSG', msg_item, broadcast=True, room=room_code)
 
 if __name__ == '__main__':
-    app.run()
+    socketio.run(app, port=5001, debug=False)
 
 

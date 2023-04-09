@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {useForm} from "react-hook-form";
-import {socket} from "./Socket"
+import { useForm } from "react-hook-form";
+import { socket } from "./Socket"
 import './Chat.css'
-import ReactHTMLParser from "react-html-parser";
-import Send from '@material-ui/icons/Send';
+import SendIcon from '@mui/icons-material/Send';
 
 function Chat({userName, roomCode}) {
+
+    // TODO: fix how we're doing emojis
 
     const [chatMSGS, setchatMSGS] = useState([]);
     const { register, handleSubmit } = useForm();
@@ -16,7 +17,7 @@ function Chat({userName, roomCode}) {
             setchatMSGS((prev) => [...prev, msg]);
           });
     }, [])
-    
+
 
     function onChat(data, e) {
         socket.emit('chatMSG', {userName, roomCode, 'message': data.chatMSG})
@@ -25,7 +26,7 @@ function Chat({userName, roomCode}) {
       }
 
       const msgItems = chatMSGS.map((msg) => (
-      <div className='message'><p key={msg['message']}><span>{ReactHTMLParser(msg['emoji'])}</span> <b>{msg['username']}:</b> {ReactHTMLParser(msg['message'])}</p></div>
+      <div className='message'><p key={msg['message']}><span role="img">{msg['emoji']}</span> <b>{msg['username']}:</b> {msg['message']}</p></div>
           ));
 
 
@@ -37,14 +38,12 @@ function Chat({userName, roomCode}) {
       </div>
       <div className="chat-form-container">
       <form onSubmit={handleSubmit(onChat)}>
-        <input 
+        <input
             autoComplete='off'
-            name="chatMSG"
             placeholder="Send message"
-            ref={register({
-                required: true})}
+            {...register("chatMSG", { required: true })}
             />
-        <button type="submit"><Send/></button>
+        <button type="submit"><SendIcon /></button>
       </form>
       </div>
       </div>
