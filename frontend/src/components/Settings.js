@@ -6,7 +6,7 @@ function Settings({ roomData }) {
   const startPage = roomData["data"] ? roomData["data"]["start_page"].replace(/_/g, ' ') : null;
   const targetPage = roomData["data"] ? roomData["data"]["target_page"].replace(/_/g, ' ') : null;
   const roomCode = roomData["data"] ? roomData["data"]["room_code"] : null;
-  const roundNum = roomData["data"] ? roomData["data"]["rounds"] : null;
+  const roundNum = roomData["data"] ? roomData["data"]["round"] : null;
   const admin = roomData["data"] ? roomData["data"]["users"][socket.id]['admin'] : null;
 
   function handleRandomize(e) {

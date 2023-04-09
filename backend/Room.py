@@ -3,17 +3,18 @@ from data import pages, emojis
 from pymongo import MongoClient
 
 ROOM_LIMIT = 8
+CERTIFICATE = 'X509-cert.pem'
+URI = 'mongodb+srv://devwikiracing.lifgoh4.mongodb.net/?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority'
 
-uri = "mongodb+srv://devwikiracing.lifgoh4.mongodb.net/?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority"
-client = MongoClient(uri,
+client = MongoClient(URI,
                      tls=True,
-                     tlsCertificateKeyFile='X509-cert.pem')
+                     tlsCertificateKeyFile=CERTIFICATE)
 
 db = client['WikiRacing']
 rooms = db['Rooms']
 
 class Room:
-    def __init__(self, room_code):
+    def __init__(self, room_code: int) -> 'Room':
         self.room_code = room_code
         room = rooms.find_one({'_id': room_code})
 
@@ -25,74 +26,73 @@ class Room:
                     'start_page': start_page,
                     'target_page': target_page,
                     'round': 1,
-                    'emojis': sample(sorted(emojis), ROOM_LIMIT)}
+                    'emojis': sample(emojis, ROOM_LIMIT)}
 
             rooms.insert_one(room)
 
     #ROOM PROPERTIES
     @property
-    def room(self):
+    def room(self) -> dict:
         return rooms.find_one({'_id': self.room_code})
 
     @property
-    def users(self):
+    def users(self) -> dict:
         return self.room['users']
 
     @property
-    def start_page(self):
+    def start_page(self) -> str:
         return self.room['start_page']
 
     @property
-    def target_page(self):
+    def target_page(self) -> str:
         return self.room['target_page']
 
     @property
-    def round(self):
+    def round(self) -> int:
         return self.room['round']
 
     @property
-    def emojis(self):
+    def emojis(self) -> str:
         return self.room['emojis']
 
     @property
-    def empty(self):
+    def empty(self) -> bool:
         return len(self.room['users']) == 0
 
     @property
-    def full(self):
+    def full(self) -> bool:
         return len(self.room['users']) >= ROOM_LIMIT
 
     #STATIC METHODS (not specific to any room)
     @staticmethod
-    def get_all_rooms():
+    def get_all_rooms() -> dict:
         # Hopefully this function can be deleted soon because it is not good practice
         room_list = list(rooms.find({}))
         return {room['_id']: room for room in room_list}
 
     @staticmethod
-    def room_from_user(user_id):
+    def room_from_user(user_id: str) -> 'Room':
         room = rooms.find_one({f'users.{user_id}.user_id': user_id})
-        if room:
-            return Room(room['_id'])
-
-        #room_code = rooms.find_one({f'users.{user_id}.user_id': user_id})['_id']
-        return None
-
+        
+        if room is not None:
+            room_code = room['_id']
+            return Room(room_code)
+            
     @staticmethod
-    def exists(room_code):
+    def exists(room_code: int) -> bool:
         return rooms.count_documents({'_id': room_code}) > 0
 
     #USER METHODS
-    def set_user_field(self, user_id, field, data):
+    def set_user_field(self, user_id: str, field: str, data: str | int | bool) -> None:
         rooms.update_one({'_id': self.room_code}, {'$set': {f'users.{user_id}.{field}': data}})
 
-    def get_user_field(self, user_id, field):
+    def get_user_field(self, user_id: str, field: str) -> str | int | bool:
         return self.get_user(user_id).get(field, None)
 
-    def get_user(self, user_id):
+    def get_user(self, user_id: str) -> dict:
         return self.users.get(user_id, None)
-
-    def add_user(self, username, user_id):
+    
+    def add_user(self, username: str, user_id: str) -> None:
         if self.get_user(user_id) is not None:
             return # raise error here?
 
@@ -102,7 +102,7 @@ class Room:
                 'username': username,
                 'admin': admin_status,
                 'current_page': None,
-                'clicks': 0,
+                'clicks': -1,
                 'wins': 0,
                 'time': 0,
                 'emoji': self.emojis.pop()}
@@ -110,7 +110,7 @@ class Room:
         rooms.update_one({'_id': self.room_code}, {'$set': {f'users.{user_id}': user},
                                                    '$pop': {'emojis': 1}})
 
-    def delete_user(self, user_id):
+    def delete_user(self, user_id: str) -> dict:
         deleted_user = self.get_user(user_id)
 
         if deleted_user is None:
@@ -130,20 +130,20 @@ class Room:
         return deleted_user
 
     #ROOM METHODS
-    def _randomize_pages(self):
+    def randomize_pages(self) -> None:
         start_page, target_page = choice(pages)
         rooms.update_one({'_id': self.room_code}, {'$set': {'start_page': start_page,
                                                             'target_page': target_page}})
-
-    def start_game(self):
+        
+    def start_game(self) -> None:
         #Resets relevant user statistics for next round
         start_page = self.start_page
         for user_id in self.users:
-            rooms.update_one({'_id': self.room_code}, {'$set': {f'users.{user_id}.clicks': 0,
+            rooms.update_one({'_id': self.room_code}, {'$set': {f'users.{user_id}.clicks': -1,
                                                                 f'users.{user_id}.current_page': start_page}})
 
-    def update_game(self, user_id, page):
-        rooms.update_one({'_id': self.room_code}, {'$inc': {f'users.{user_id}.clicks': 1},
+    def update_game(self, user_id: str, page: str) -> dict | None:
+        rooms.update_one({'_id': self.room_code}, {'$inc': {f'users.{user_id}.clicks': 1}, 
                                                    '$set': {f'users.{user_id}.current_page': page}})
 
         user_page = page.lower()
@@ -155,7 +155,7 @@ class Room:
 
         return None
 
-    def end_game(self, winner_id):
+    def end_game(self, winner_id: str) -> dict | None:
         winner = self.get_user(winner_id)
 
         if winner is None:
@@ -164,11 +164,11 @@ class Room:
         rooms.update_one({'_id': self.room_code}, {'$inc': {f'round': 1,
                                                             f'users.{winner_id}.wins': 1}})
 
-        self._randomize_pages()
+        self.randomize_pages()
 
         return winner
 
-    def export(self):
+    def export(self) -> dict:
         to_export = self.room
 
         # switch from MongoDB use to internal use

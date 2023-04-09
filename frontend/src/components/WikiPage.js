@@ -41,6 +41,11 @@ function WikiPage({ roomCode }) {
       navigate(1);
     });
 
+    return () => {
+      socket.off("updatePage");
+      socket.off("endRound");
+    }
+
   }, [wikiPage]);
 
   function formatTime(seconds) {

@@ -54,7 +54,7 @@ function NewGame({ setUserName, setRoomCode }) {
                   message: "You need at least 3 characters.",
                 },
                 maxLength: {
-                  value: 15,
+                  value: 20,
                   message: "You need less than 15 characters.",
                 },
               })}
