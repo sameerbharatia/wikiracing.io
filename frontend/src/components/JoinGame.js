@@ -7,7 +7,7 @@ import "./LoginPage.css";
 
 function JoinGame({ setUserName, setRoomCode }) {
   const navigate = useNavigate();
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const ROOM_LIMIT = 8;
 
   async function onSubmit(data) {
@@ -30,8 +30,7 @@ function JoinGame({ setUserName, setRoomCode }) {
               className="main-input"
               autoFocus
               placeholder="Username"
-              name="userName"
-              ref={register({
+              {...register("userName", {
                 required: "Username is required.",
                 minLength: {
                   value: 3,
@@ -48,8 +47,7 @@ function JoinGame({ setUserName, setRoomCode }) {
             <input
               className="main-input"
               placeholder="Room Code"
-              name="roomCode"
-              ref={register({
+              {...register("roomCode", {
                 required: "Room Code is required.",
                 pattern: {
                   value: /^\d{4}$/,

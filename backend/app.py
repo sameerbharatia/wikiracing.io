@@ -27,7 +27,7 @@ def validation():
     return Room.get_all_rooms()
 
 @socketio.on('join')
-def on_join(data):
+def on_join(data: dict) -> None:
     username = data['userName']
     room_code = data['roomCode']
 
@@ -44,13 +44,16 @@ def on_join(data):
         emit('updateRoom', room_data, broadcast=True, room=room_code)
 
         # Join message
-        msg_item = {'username': 'Bot', 'emoji': '&#129302;', 'message': f'{username} joined the room.'}
+        msg_item = {'username': 'Bot', 'emoji': '🤖', 'message': f'{username} joined the room.'}
         emit('chatMSG', msg_item, broadcast=True, room=room_code)
 
 @socketio.on('disconnect')
-def on_leave():
-
+def on_leave() -> None:
     room = Room.room_from_user(request.sid)
+
+    if room is None:
+        return
+
     deleted_user = room.delete_user(request.sid)
     room_code = room.room_code
     leave_room(room_code)
@@ -65,7 +68,7 @@ def on_leave():
         emit('chatMSG', msg_item, broadcast=True, room=room_code)
 
 @socketio.on('startRound')
-def start_game(data):
+def start_game(data: dict) -> None:
     room_code = data['roomCode']
     room = Room(room_code)
 
@@ -74,7 +77,7 @@ def start_game(data):
     emit('startRound', {'startPage': room.start_page}, broadcast=True, room=room_code)
 
 @socketio.on('updateRoom')
-def update_room(data):
+def update_room(data: dict) -> None:
     room_code = data['roomCode']
 
     room = Room(room_code)
@@ -85,7 +88,7 @@ def update_room(data):
 
 
 @socketio.on('randomizePages')
-def randomize(data):
+def randomize(data: dict) -> None:
     room_code = data['roomCode']
 
     room = Room(room_code)
@@ -97,13 +100,15 @@ def randomize(data):
     emit('updateRoom', room_data, broadcast=True, room=room_code)
 
 @socketio.on('updatePage')
-def get_wikipage(data):
+def get_wikipage(data: dict) -> None:
     room_code = data['roomCode']
     page_name = data['wikiPage']
 
     room = Room(room_code)
 
-    page = Page(page_name, room.target_page).export()
+    page = Page(page_name).export()
+    page['target'] = room.target_page
+    
     emit('updatePage', page)
 
     winner = room.update_game(request.sid, page_name)
@@ -112,7 +117,7 @@ def get_wikipage(data):
         emit('endRound', winner, broadcast=True, room=room_code)
 
 @socketio.on('updateTime')
-def update_time(data):
+def update_time(data: dict) -> None:
     time = data['time']
     room_code = data['roomCode']
 
@@ -121,8 +126,8 @@ def update_time(data):
     room.set_user_field(request.sid, 'time', time)
 
 @socketio.on('chatMSG')
-def message(data):
-    message = profanity.censor(data['message'], '&#129324')
+def message(data: dict) -> None:
+    message = profanity.censor(data['message'], '🤬')
     user_name = data['userName']
     room_code = data['roomCode']
 

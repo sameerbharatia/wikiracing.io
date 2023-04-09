@@ -25,7 +25,7 @@ function Game({ userName, roomCode }) {
     });
 
     socket.on("startRound", (data) => {
-      console.log("Recived startRound with redirect to", data["startPage"]);
+      console.log("Received startRound with redirect to", data["startPage"]);
       navigate(`/wiki/${data["startPage"]}`);
     });
 
@@ -41,6 +41,8 @@ function Game({ userName, roomCode }) {
         socket.disconnect();
         socket.connect();
       });
+      socket.off("updateRoom");
+      socket.off("startRound");
     };
   }, []);
 

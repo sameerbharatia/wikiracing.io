@@ -14,7 +14,7 @@ function Users({ roomData }) {
         <p className="wins">{user['wins']}<span className="tool-tip">wins</span></p>
         </div>
         <div className='info-container'>
-        <p className="admin">{user['admin'] ? '&#128737;&#65039;' : null }</p>
+        <p className="admin">{user['admin'] ? <span role="img">🛡️</span> : null }</p>
         </div>
         </div>
         )

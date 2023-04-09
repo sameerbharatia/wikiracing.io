@@ -16,6 +16,10 @@ function Chat({userName, roomCode}) {
         socket.on("chatMSG", (msg) => {
             setchatMSGS((prev) => [...prev, msg]);
           });
+
+        return () => {
+            socket.off("chatMSG");
+        }
     }, [])
 
 
