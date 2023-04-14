@@ -17,7 +17,7 @@ socketio = SocketIO(app, cors_allowed_origins='*', logger=True, engineio_logger=
 requests_cache.install_cache()
 
 @app.route('/')
-def hello():
+def hello() -> str:
     return 'This is the backend server for wikiracing.io.'
 
 @app.route('/validation_data')

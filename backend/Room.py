@@ -30,13 +30,15 @@ class Room:
 
             rooms.insert_one(room)
 
-    #ROOM PROPERTIES
+    # ROOM PROPERTIES
     @property
-    def room(self) -> dict:
+    def room(self) -> dict[str, int | dict | str | list]:
+        'Fetch all data for room from database'
+
         return rooms.find_one({'_id': self.room_code})
 
     @property
-    def users(self) -> dict:
+    def users(self) -> dict[str, str | int | bool]:
         return self.room['users']
 
     @property
@@ -63,7 +65,7 @@ class Room:
     def full(self) -> bool:
         return len(self.room['users']) >= ROOM_LIMIT
 
-    #STATIC METHODS (not specific to any room)
+    # STATIC METHODS (not specific to any room)
     @staticmethod
     def get_all_rooms() -> dict:
         # Hopefully this function can be deleted soon because it is not good practice
@@ -71,7 +73,9 @@ class Room:
         return {room['_id']: room for room in room_list}
 
     @staticmethod
-    def room_from_user(user_id: str) -> 'Room':
+    def room_from_user(user_id: str) -> 'Room' | None:
+        'Return room given user is in'
+
         room = rooms.find_one({f'users.{user_id}.user_id': user_id})
         
         if room is not None:
@@ -80,22 +84,34 @@ class Room:
             
     @staticmethod
     def exists(room_code: int) -> bool:
+        'Check if given room code is for an existing room'
+
         return rooms.count_documents({'_id': room_code}) > 0
 
-    #USER METHODS
+    # USER METHODS
     def set_user_field(self, user_id: str, field: str, data: str | int | bool) -> None:
+        'Set any fields of a given user such as current_page, clicks etc.'
+
         rooms.update_one({'_id': self.room_code}, {'$set': {f'users.{user_id}.{field}': data}})
 
     def get_user_field(self, user_id: str, field: str) -> str | int | bool:
+        'Get any fields of a user such as current_page, clicks etc.'
+
         return self.get_user(user_id).get(field, None)
 
-    def get_user(self, user_id: str) -> dict:
+    def get_user(self, user_id: str) -> dict[str, str | int | bool]:
+        'Get all fields of a user'
+
         return self.users.get(user_id, None)
     
     def add_user(self, username: str, user_id: str) -> None:
+        'Add given user to room'
+
+        # User is already in the room
         if self.get_user(user_id) is not None:
             return # raise error here?
 
+        # First user added to the room is admin
         admin_status = self.empty
 
         user = {'user_id': user_id,
@@ -110,39 +126,52 @@ class Room:
         rooms.update_one({'_id': self.room_code}, {'$set': {f'users.{user_id}': user},
                                                    '$pop': {'emojis': 1}})
 
-    def delete_user(self, user_id: str) -> dict:
+    def delete_user(self, user_id: str) -> dict[str, str | int | bool]:
+        'Delete given user from room'
+
         deleted_user = self.get_user(user_id)
 
+        # Trying to delete user not in room
         if deleted_user is None:
             return # raise error here?
 
         rooms.update_one({'_id': self.room_code}, {'$unset': {f'users.{user_id}': {'user_id': user_id}}})
 
-        # if last user left, delete the room from database
+        # Last user leaving room, delete the room from database
         if self.empty:
             rooms.delete_one({'_id': self.room_code})
 
-        # if the user to leave is admin and other users are left, choose a new admin
+        # User to leave is admin and more users are left, next earliest user to join room is new admin
         elif deleted_user['admin']:
             new_admin = next(iter(self.users))
             rooms.update_one({'_id': self.room_code}, {'$set': {f'users.{new_admin}.admin': True}})
 
         return deleted_user
 
-    #ROOM METHODS
+    # ROOM METHODS
     def randomize_pages(self) -> None:
+        'Choose new start and target pages randomly'
+
         start_page, target_page = choice(pages)
         rooms.update_one({'_id': self.room_code}, {'$set': {'start_page': start_page,
                                                             'target_page': target_page}})
-        
+    
+    # TODO: Rename to start_round() ?
     def start_game(self) -> None:
-        #Resets relevant user statistics for next round
+        'Internal data setup to start round'
+
         start_page = self.start_page
+
+        # Resets relevant user statistics for next round
         for user_id in self.users:
             rooms.update_one({'_id': self.room_code}, {'$set': {f'users.{user_id}.clicks': -1,
                                                                 f'users.{user_id}.current_page': start_page}})
 
-    def update_game(self, user_id: str, page: str) -> dict | None:
+    # TODO: Rename to update_round() ?
+    def update_game(self, user_id: str, page: str) -> dict[str, str | int | bool] | None:
+        'Internal data update everytime user moves to new page'
+
+        # Update stats
         rooms.update_one({'_id': self.room_code}, {'$inc': {f'users.{user_id}.clicks': 1}, 
                                                    '$set': {f'users.{user_id}.current_page': page}})
 
@@ -155,23 +184,31 @@ class Room:
 
         return None
 
-    def end_game(self, winner_id: str) -> dict | None:
+    # TODO: Rename to end_round() ?
+    def end_game(self, winner_id: str) -> dict[str, str | int | bool] | None:
+        'Internal data update when given user wins'
+
         winner = self.get_user(winner_id)
 
+        # Winner is not in room
         if winner is None:
-            return
+            return # raise error here?
 
+        # Update leaderboard
         rooms.update_one({'_id': self.room_code}, {'$inc': {f'round': 1,
                                                             f'users.{winner_id}.wins': 1}})
 
+        # Pick pages for next round
         self.randomize_pages()
 
         return winner
 
-    def export(self) -> dict:
+    def export(self) -> dict[str, int | dict | str | list]:
+        'Export room data'
+
         to_export = self.room
 
-        # switch from MongoDB use to internal use
+        # Rename for internal use
         to_export['room_code'] = to_export.pop('_id')
 
         return to_export
