@@ -1,5 +1,5 @@
 .timer-container, .target-container {
-    position: absolute;
+    position: fixed;
     z-index: 1;
     top: 5px;
     background-color: black;
@@ -8,7 +8,11 @@
     padding: 4px 6px;
     border-radius: 6px;
     opacity: 0.35;
-    margin: 5px; 
+    margin: 5px;
+}
+
+.stats-container {
+   /* position: fixed; */
 }
 
 .timer-container {
@@ -40,6 +44,10 @@
     animation: fadein 1s ease;
 }
 
+.background {
+    background-color: white;
+}
+
 @keyframes fadein {
     from {opacity: 0;}
     to {opacity: 1;}
@@ -61,7 +69,7 @@
 .winner-clicks {
     font-size: x-large;
     text-align: right;
-    
+
 }
 
 .winner-overlay b {
@@ -93,7 +101,7 @@
 
  .winner-overlay h1 {
     animation: bop 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards infinite
-      alternate;   
+      alternate;
 }
 
 @keyframes bop {

@@ -73,15 +73,15 @@ class Room:
         return {room['_id']: room for room in room_list}
 
     @staticmethod
-    def room_from_user(user_id: str) -> 'Room' | None:
+    def room_from_user(user_id: str):# -> 'Room' | None:
         'Return room given user is in'
 
         room = rooms.find_one({f'users.{user_id}.user_id': user_id})
-        
+
         if room is not None:
             room_code = room['_id']
             return Room(room_code)
-            
+
     @staticmethod
     def exists(room_code: int) -> bool:
         'Check if given room code is for an existing room'
@@ -103,7 +103,7 @@ class Room:
         'Get all fields of a user'
 
         return self.users.get(user_id, None)
-    
+
     def add_user(self, username: str, user_id: str) -> None:
         'Add given user to room'
 
@@ -155,7 +155,7 @@ class Room:
         start_page, target_page = choice(pages)
         rooms.update_one({'_id': self.room_code}, {'$set': {'start_page': start_page,
                                                             'target_page': target_page}})
-    
+
     # TODO: Rename to start_round() ?
     def start_game(self) -> None:
         'Internal data setup to start round'
@@ -172,7 +172,7 @@ class Room:
         'Internal data update everytime user moves to new page'
 
         # Update stats
-        rooms.update_one({'_id': self.room_code}, {'$inc': {f'users.{user_id}.clicks': 1}, 
+        rooms.update_one({'_id': self.room_code}, {'$inc': {f'users.{user_id}.clicks': 1},
                                                    '$set': {f'users.{user_id}.current_page': page}})
 
         user_page = page.lower()

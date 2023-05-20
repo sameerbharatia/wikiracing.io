@@ -2,7 +2,6 @@ from flask import Flask, render_template, request
 from flask_socketio import SocketIO, send, join_room, leave_room, emit
 from flask_cors import CORS, cross_origin
 from Room import Room
-from Page import Page
 from better_profanity import profanity
 import requests
 import requests_cache
@@ -100,16 +99,18 @@ def randomize(data: dict) -> None:
     emit('updateRoom', room_data, broadcast=True, room=room_code)
 
 @socketio.on('updatePage')
-def get_wikipage(data: dict) -> None:
+def udpate_page(data: dict) -> None:
     room_code = data['roomCode']
     page_name = data['wikiPage']
 
     room = Room(room_code)
 
-    page = Page(page_name).export()
-    page['target'] = room.target_page
-    
-    emit('updatePage', page)
+    #page = Page(page_name).export()
+    #page['target'] = room.target_page
+
+    #emit('updatePage', page)
+
+    emit('updatePage', {'target': room.target_page})
 
     winner = room.update_game(request.sid, page_name)
 
@@ -140,6 +141,6 @@ def message(data: dict) -> None:
     emit('chatMSG', msg_item, broadcast=True, room=room_code)
 
 if __name__ == '__main__':
-    socketio.run(app, port=5001, debug=False)
+    socketio.run(app, port=5001, debug=True)
 
 
